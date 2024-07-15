@@ -14,7 +14,7 @@ const ProductsList = () => {
 		currentCategory,
 		currentSort,
 	} = useSelector((state) => state.products);
-
+	//rerenders the display if any of the queries are changed or if the page is changed in the state
 	useEffect(() => {
 		dispatch(
 			fetchProducts({
@@ -29,7 +29,7 @@ const ProductsList = () => {
 	const handlePageClick = (page) => {
 		dispatch(setPage(page));
 	};
-
+	//error handling
 	if (status === 'loading') return <div>Loading...</div>;
 	if (status === 'failed' && error === 'No products found')
 		return (
@@ -38,7 +38,7 @@ const ProductsList = () => {
 			</div>
 		);
 	if (status === 'failed') return <div>Error: {error}</div>;
-
+	//ui for products list component
 	return (
 		<div>
 			<div className='product-grid'>

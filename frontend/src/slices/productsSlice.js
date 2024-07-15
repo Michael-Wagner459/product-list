@@ -6,7 +6,7 @@ export const fetchProducts = createAsyncThunk(
 	async ({ search, category, sort, page = 1 }, { rejectWithValue }) => {
 		try {
 			let query = `page=${page}&`;
-
+			//if queries are sent in a request it gets added to the url request sent to the api
 			if (search) query += `query=${search}&`;
 			if (category) query += `category=${category}&`;
 			if (sort) query += `price=${sort}&`;
@@ -14,6 +14,7 @@ export const fetchProducts = createAsyncThunk(
 			const response = await axios.get(`/products?${query}`);
 			return response.data;
 		} catch (error) {
+			//error handling to better display no products found for the user
 			if (error.response && error.response.status === 404) {
 				return rejectWithValue('No products found');
 			}
@@ -24,6 +25,7 @@ export const fetchProducts = createAsyncThunk(
 
 const productsSlice = createSlice({
 	name: 'products',
+	//setting up initial state
 	initialState: {
 		items: [],
 		status: 'idle',
@@ -35,9 +37,11 @@ const productsSlice = createSlice({
 		currentSort: '',
 	},
 	reducers: {
+		//sets current page
 		setPage: (state, action) => {
 			state.currentPage = action.payload;
 		},
+		//sets the query values to a state to keep track of when switching pages
 		setSearchCategorySort: (state, action) => {
 			state.currentSearch = action.payload.search;
 			state.currentCategory = action.payload.category;
@@ -46,6 +50,7 @@ const productsSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
+			//setting up fetch products
 			.addCase(fetchProducts.pending, (state) => {
 				state.status = 'loading';
 			})

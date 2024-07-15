@@ -5,15 +5,16 @@ import '../styles.css';
 
 const SearchBar = () => {
 	const dispatch = useDispatch();
+	//sets up initial state for queries
 	const [search, setSearch] = useState('');
 	const [category, setCategory] = useState('');
 	const [sort, setSort] = useState('');
-
+	//adjusts state upon button click that causes the api to retrieve information
 	const handleSearchClick = () => {
 		dispatch(setPage(1));
 		dispatch(setSearchCategorySort({ search, category, sort }));
 	};
-
+	//ui for search bar
 	return (
 		<div className='search-bar'>
 			<input
